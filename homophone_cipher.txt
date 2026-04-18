@@ -1,0 +1,104 @@
+import random
+
+# Таблица омофонов
+homophones = {
+    'А': ['311', '357', '495', '519', '637', '678', '776', '901'],
+    'Б': ['128', '950', '990'],
+    'В': ['175', '194', '199', '427', '524', '644'],
+    'Г': ['203', '214', '225'],
+    'Д': ['230', '241', '252'],
+    'Е': ['266', '303', '423', '845'],
+    'Ё': ['271', '282'],
+    'Ж': ['287', '298'],
+    'З': ['304', '315'],
+    'И': ['148', '754', '759'],
+    'Й': ['320', '331'],
+    'К': ['272', '343'],
+    'Л': ['844', '510'],
+    'М': ['037', '149', '349', '760', '777'],
+    'Н': ['074', '385'],
+    'О': ['248', '267', '303', '306', '432', '824', '828', '886', '903'],
+    'П': ['245', '401'],
+    'Р': ['064', '189', '374', '469', '554', '721'],
+    'С': ['412', '423'],
+    'Т': ['434', '445'],
+    'У': ['456', '467'],
+    'Ф': ['478', '489'],
+    'Х': ['500', '511'],
+    'Ц': ['356', '522'],
+    'Ч': ['533', '544'],
+    'Ш': ['555', '566'],
+    'Щ': ['577', '588'],
+    'Ъ': ['599'],
+    'Ы': ['610'],
+    'Ь': ['474', '621'],
+    'Э': ['632'],
+    'Ю': ['562', '643'],
+    'Я': ['266', '333', '749', '845', '954'],
+    ' ': ['000']
+}
+
+# Обратная таблица для расшифровки
+reverse_map = {}
+for letter, codes in homophones.items():
+    for code in codes:
+        reverse_map[code] = letter
+
+
+def encrypt(text):
+    text = text.upper()
+    result = []
+
+    for ch in text:
+        if ch in homophones:
+            result.append(random.choice(homophones[ch]))
+        else:
+            result.append(f'[{ch}]')  # если символа нет в таблице
+
+    return ' '.join(result)
+
+
+def decrypt(code_text):
+    parts = code_text.split()
+    result = []
+
+    for code in parts:
+        if code in reverse_map:
+            result.append(reverse_map[code])
+        else:
+            result.append('?')
+
+    return ''.join(result)
+
+
+def main():
+    while True:
+        print("\n=== Система омофонов ===")
+        print("1. Зашифровать текст")
+        print("2. Расшифровать числа")
+        print("3. Выход")
+
+        choice = input("Выберите действие: ").strip()
+
+        if choice == '1':
+            text = input("Введите текст: ")
+            encrypted = encrypt(text)
+            print("Шифрограмма:")
+            print(encrypted)
+
+        elif choice == '2':
+            code_text = input("Введите числа через пробел: ")
+            decrypted = decrypt(code_text)
+            print("Расшифровка:")
+            print(decrypted)
+
+        elif choice == '3':
+            print("Выход.")
+            break
+
+        else:
+            print("Неверный выбор.")
+
+
+if __name__ == "__main__":
+    main()
